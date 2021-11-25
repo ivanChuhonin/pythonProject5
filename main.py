@@ -1,11 +1,26 @@
 # Задание 1
+class myStack:
+    def __init__(self):
+        self.container = []
 
-myStack = []
+    def isEmpty(self):
+        return self.container == []
+
+    def push(self, item):
+        self.container.append(item)
+
+    def pop(self):
+        return self.container.pop()
+
+    def size(self):
+        return len(self.container)
+
+stack = myStack()
 myOutput = []
 maxNumber = 10 ** 6
 
 
-def stack():
+def runStack():
     with open('input1.txt') as f:
         line = f.readline()
         qty = int(line) if line else 0
@@ -16,11 +31,11 @@ def stack():
             if line:
                 x = line.split(" ")
                 if x[0] == '+':
-                    if len(myStack) < maxNumber:
-                        myStack.append(x[1])
+                    if stack.size() < maxNumber:
+                        stack.push(x[1])
                 else:
-                    if len(myStack) != 0:
-                        myOutput.append(myStack.pop())
+                    if stack.size() != 0:
+                        myOutput.append(stack.pop())
 
     f = open("output1.txt", "w")
     for line in myOutput:
@@ -28,7 +43,7 @@ def stack():
     f.close()
 
 
-stack()
+runStack()
 
 
 # Задание 3
@@ -50,6 +65,12 @@ def brackets():
                         break
                     elif c in ['(', '[']:
                         state += c
+                    elif state != '' and c == ')' and state[-1] == '[':
+                        state = 'NO'
+                        break
+                    elif state != '' and c == ']' and state[-1] == '(':
+                        state = 'NO'
+                        break
                     elif state != '' and c == ')' and state[-1] == '(':
                         state = state[:-1]
                     elif state != '' and c == ']' and state[-1] == '[':
@@ -64,7 +85,7 @@ def brackets():
     f.close()
 
 
-myStack = []
+stack = []
 myOutput = []
 brackets()
 
@@ -81,18 +102,18 @@ def maxStack():
             if line:
                 x = line.split(" ")
                 if x[0] == 'push':
-                    myStack.append(int(x[1]))
+                    stack.append(int(x[1]))
                 elif x[0] == 'pop':
-                    myStack.pop()
+                    stack.pop()
                 elif x[0].strip() == 'max':
-                    myOutput.append(str(max(myStack)) + '\n')
+                    myOutput.append(str(max(stack)) + '\n')
 
     f = open("output3.txt", "w")
     f.writelines(myOutput)
     f.close()
 
 
-myStack = []
+stack = []
 myOutput = []
 maxStack()
 
@@ -123,7 +144,7 @@ import time
 
 t_start = time.perf_counter()
 
-# stack()
+# runStack()
 # brackets()
 maxStack()
 # maxSubsequence()
